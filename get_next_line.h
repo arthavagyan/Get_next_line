@@ -1,9 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: artavagy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/18 14:57:12 by artavagy          #+#    #+#             */
+/*   Updated: 2026/03/18 15:37:54 by artavagy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFFER_SIZE=n
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 char	*get_next_line(int fd);
+char	*ft_strjoin(char *str1, char *s2);
+char	*ft_strchr(const char *str, int c);
 
+size_t	ft_strlen(const char *str);
 #endif
