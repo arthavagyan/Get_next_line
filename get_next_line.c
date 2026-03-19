@@ -6,7 +6,7 @@
 /*   By: artavagy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 18:29:13 by artavagy          #+#    #+#             */
-/*   Updated: 2026/03/18 17:06:24 by artavagy         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:17:46 by artavagy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -24,13 +24,13 @@ static char	*buffer_read(int fd, char *stash)
 	{
 		bytes = read(fd, tmp, BUFFER_SIZE);
 		if (bytes == -1)
-		{
-			free(tmp);
-			return (NULL);
-		}
+			return (free(stash), free(tmp), NULL);
 		tmp[bytes] = '\0';
 		stash = ft_strjoin(stash, tmp);
+		if (!stash)
+			return (free(tmp), NULL);
 	}
+	free(tmp);
 	return (stash);
 }
 
@@ -66,22 +66,20 @@ static char	*correct_stash(char *stash)
 
 	i = 0;
 	j = 0;
+	if (!stash)
+		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (!stash)
-	{
-		free(stash);
-		return (NULL);
-	}
+	if (!stash[i])
+		return (free(stash), NULL);
 	correct_stash = malloc(ft_strlen(stash) - i + 1);
 	if (!correct_stash)
-		return (NULL);
+		return (free(stash), NULL);
 	i++;
 	while (stash[i])
 		correct_stash[j++] = stash[i++];
 	correct_stash[j] = '\0';
-	free(stash);
-	return (correct_stash);
+	return (free(stash), correct_stash);
 }
 
 char	*get_next_line(int fd)
@@ -93,8 +91,12 @@ char	*get_next_line(int fd)
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	stash = buffer_read(fd, stash);
-	if (!stash)
+	if (!stash || stash[0] == '\0')
+	{
+		free(stash);
+		stash = NULL;
 		return (NULL);
+	}
 	line = correct_line(stash, line);
 	stash = correct_stash(stash);
 	return (line);
