@@ -1,48 +1,85 @@
-*This project has been created as part of the 42 curriculum by artavagy.*
-# Get_next_line
+# 📜 Get_next_line — Reading a line from a FD is finally easy
 
-## Description 
+<p align="center">
+  <img src="https://img.shields.io/badge/Score-125%2F100-success?style=for-the-badge&logo=42" alt="Score 125/100" />
+  <img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge&logo=c" alt="Language C" />
+  <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge" alt="Status Completed" />
+</p>
 
-The **get_next_line** project is a fundamental challenge in the 42 curriculum that involves creating a function to read a line from a file descriptor.
+---
 
-## Project Goal 
+## 📖 Description
 
-The goal of this project is to write a function that returns a line read from a file descriptor. Whether it is a file, a redirection, or even standard input, the function must return the line ending with a newline character (\n), or NULL if there is nothing else to read or if an error occurred.
+**get_next_line** is a famous project in the **42 curriculum**. The task is simple but challenging: create a function that reads one line at a time from a file descriptor (FD). 
 
-## Instructions 
+It helps you understand how memory works in C, how to use **static variables**, and how to manage the heap efficiently.
 
-### Compilation
+---
 
-The project must be compiled with the flag `-D BUFFER_SIZE=n` to define the buffer size for the `read()` function.
+## 🎯 Project Goal
 
-```
-bash
+The goal is to write a function that:
+- Returns a single line from a file descriptor.
+- Works with **files**, **standard input (stdin)**, and **redirections**.
+- Returns the line including the `\n` character.
+- Returns `NULL` when there is nothing left to read or if an error happens.
 
+---
+
+## 🛠️ How to Compile
+
+You must compile the project with a specific flag to define the `BUFFER_SIZE`. This tells the function how many characters to read at once.
+
+**Example command:**
+```bash
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl
 ```
 
-## Algorithm: Selection & Justification
+---
 
-Selected Algorithm: Static Buffer Persistence
-The algorithm uses a Static Variable to serve as a persistent "stash" or "remainder" buffer.
+## 🧠 Algorithm: Why Static Variables?
 
-### Justification
-- Data Preservation: Because read() retrieves data in chunks defined by BUFFER_SIZE, it often reads past the first newline character. A static variable is the only way to store this "extra" data in the heap so it remains available for the next time the function is called.
+I chose the **Static Buffer Persistence** approach. Here is why:
 
-- Memory Efficiency: By using a single string join approach, the algorithm maintains a clear flow:
+### 1. Data Preservation 💾
+The `read()` function often reads more characters than one line. A **static variable** acts like a "storage room" (or stash). It saves the extra characters so they are ready for the next time you call the function.
 
-Read until a newline is found in the stash.
+### 2. Simple Logic 🔄
+The algorithm follows a clear process:
+1. **Read** from the file until we find a `\n` or reach the end.
+2. **Extract** the current line to return it.
+3. **Clean** the stash to keep only the leftovers for the next call.
 
-- Extract the line to be returned to the user.
+---
 
-Update the stash by removing the returned line.
+## 📂 Project Structure
 
-## Resources 
+| File | Description |
+| :--- | :--- |
+| `get_next_line.c` | Main logic of the function. |
+| `get_next_line_utils.c` | Helper functions (like `strlen`, `strjoin`, etc.). |
+| `get_next_line.h` | Header file with prototypes and macros. |
 
-- Linux manual pages (man 3)
-- GNU C Library documentation
-- W3Schools.com
-- 42 intranet Libft subject
-- Google search resources
-- Peer on the right peer on the left and someone smart in the building
-- AI tools were used only for search resources
+---
+
+## 📚 Resources
+
+- **Man 3 read** — Learning how to read files.
+- **Static Variables** — Understanding how they stay in memory.
+- **42 Intranet** — Project guidelines.
+- **Peer Learning** — Discussing logic with classmates.
+- **AI Tools** — Used for searching documentation and debugging.
+
+---
+
+## 👨‍💻 Author
+
+Created by **artavagy** as part of the 42 Yerevan curriculum.
+
+<div align="center">
+
+  [![GitHub Profile](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github)](https://github.com/artavagy)
+
+</div>
+
+---
